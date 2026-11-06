@@ -49,5 +49,5 @@ flowchart LR
 ## Known trade-offs
 Single-node k3s (not highly available) and public subnets without NAT keep the cost low. A production version would use multi-AZ EKS and private subnets.
 
-## Results (fill in after your demo)
+## Results (will be  filled in after my demo)
 - Commit to live: ___ min | Rollback time: ___ s | Environment build time: ___ min
