@@ -1,0 +1,2 @@
+admin_cidr  = "203.0.113.10/32" # replace with your IP (curl ifconfig.me)
+github_repo = "kovendhan5/opspulse"

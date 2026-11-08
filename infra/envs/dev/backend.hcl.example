@@ -1,0 +1,5 @@
+bucket         = "opspulse-tfstate-yourname-123"
+key            = "dev/terraform.tfstate"
+region         = "ap-south-1"
+dynamodb_table = "opspulse-tf-lock"
+encrypt        = true
