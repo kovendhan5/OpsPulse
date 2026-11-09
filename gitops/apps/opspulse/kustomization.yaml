@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: opspulse
+resources:
+  - rollout.yaml
+  - analysistemplate.yaml
+  - service.yaml
+  - ingress.yaml
+  - servicemonitor.yaml
+  - prometheusrule.yaml
+configurations:
+  - kustomizeconfig.yaml
+images:
+  - name: opspulse-app
+    newName: ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/opspulse # replace ACCOUNT_ID once
+    newTag: latest # CI rewrites this to the git SHA on every release

@@ -1,0 +1,21 @@
+# Automated judge for the canary: if more than 5% of the canary's requests fail, abort and roll back.
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: error-rate
+spec:
+  args:
+    - name: canary-hash
+  metrics:
+    - name: error-rate
+      interval: 15s
+      count: 4
+      failureLimit: 1
+      successCondition: len(result) == 0 || isNaN(result[0]) || result[0] < 0.05
+      provider:
+        prometheus:
+          address: http://kube-prometheus-stack-prometheus.monitoring.svc:9090
+          query: |
+            sum(rate(http_requests_total{rollouts_pod_template_hash="{{args.canary-hash}}",status=~"5.."}[1m]))
+            /
+            sum(rate(http_requests_total{rollouts_pod_template_hash="{{args.canary-hash}}"}[1m]))

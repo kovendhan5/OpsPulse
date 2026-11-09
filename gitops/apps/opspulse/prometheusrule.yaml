@@ -1,0 +1,31 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: opspulse-slo
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: opspulse-slo
+      rules:
+        - record: opspulse:http_error_ratio:rate5m
+          expr: |
+            sum(rate(http_requests_total{namespace="opspulse",status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total{namespace="opspulse"}[5m]))
+        - alert: OpsPulseErrorBudgetBurn
+          expr: opspulse:http_error_ratio:rate5m > 0.005
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Error ratio above 0.5% (99.5% availability SLO at risk)"
+        - alert: OpsPulseHighLatencyP95
+          expr: |
+            histogram_quantile(0.95,
+              sum by (le) (rate(http_request_duration_seconds_bucket{namespace="opspulse"}[5m]))) > 0.3
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "p95 latency above 300 ms"

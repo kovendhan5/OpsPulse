@@ -1,0 +1,4 @@
+# Teaches kustomize to update the image field inside an Argo Rollouts "Rollout" object.
+images:
+  - path: spec/template/spec/containers[]/image
+    kind: Rollout
