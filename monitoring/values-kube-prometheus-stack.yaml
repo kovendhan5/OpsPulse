@@ -1,0 +1,16 @@
+# Small footprint for a single node. Tune before using anywhere real.
+prometheus:
+  prometheusSpec:
+    retention: 3d
+    serviceMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    resources:
+      requests: { cpu: 100m, memory: 400Mi }
+grafana:
+  resources:
+    requests: { cpu: 50m, memory: 128Mi }
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      requests: { cpu: 25m, memory: 64Mi }
+# To send alerts to Slack, add an alertmanager.config receiver (see docs/BUILD_GUIDE.md, Week 3).
