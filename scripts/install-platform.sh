@@ -18,3 +18,6 @@ echo "Platform installed. Now apply the Argo CD application:"
 echo "  kubectl apply -f gitops/argocd/application.yaml"
 echo "Argo CD admin password:"
 echo "  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
+
+
+#verify
