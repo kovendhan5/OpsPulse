@@ -1,4 +1,5 @@
 # GitHub Actions authenticates with short-lived OIDC tokens: no long-lived AWS keys stored in GitHub.
+# github oidc
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
