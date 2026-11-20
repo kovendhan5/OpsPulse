@@ -59,6 +59,6 @@ Work in small steps, commit after each one, and write what you learned in your R
 - Canary always passes: there is no traffic, so start `loadgen.sh`.
 - Node out of memory: use `t3.medium` or larger.
 
-## Resume bullets (replace the blanks with your real numbers)
+## Resume bullets 
 - Built a GitOps delivery platform on AWS using Terraform, GitHub Actions, Argo CD and Argo Rollouts, cutting commit-to-production time to ___ minutes with automated canary rollback in under ___ minutes.
 - Defined SLOs (99.5% availability, p95 under 300 ms) with Prometheus alerts and Grafana dashboards; enforced a Trivy security gate and keyless GitHub-to-AWS authentication via OIDC.
