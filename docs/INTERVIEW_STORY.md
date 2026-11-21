@@ -34,5 +34,3 @@ Single node is not highly available; public subnets without NAT were chosen for 
 
 ## Vocabulary to use naturally
 idempotent, drift, blast radius, least privilege, rollback, canary, SLO/SLI, error budget, source of truth, reconcile, provisioning.
-
-
