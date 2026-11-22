@@ -9,5 +9,3 @@ while true; do
   curl -s -o /dev/null "$URL/orders"
   sleep 0.2
 done
-
-

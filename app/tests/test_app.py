@@ -32,3 +32,5 @@ def test_metrics_exposed():
 def test_simulated_failure(monkeypatch):
     monkeypatch.setattr(main, "FAIL_RATE", 1.0)
     assert client.get("/orders").status_code == 500
+
+

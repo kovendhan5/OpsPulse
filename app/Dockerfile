@@ -4,6 +4,7 @@ WORKDIR /srv
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY main.py .
+
 # Run as a non-root user (least privilege)
 RUN useradd --uid 10001 --no-create-home appuser
 USER 10001
