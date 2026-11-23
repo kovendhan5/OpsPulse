@@ -8,6 +8,7 @@ Work in small steps, commit after each one, and write what you learned in your R
 - Create a GitHub repo named `opspulse` and push this folder.
 - Find your IP: `curl ifconfig.me` (you will use `x.x.x.x/32`).
 
+
 ## Week 1: Terraform foundation
 **Day 1-2: Remote state**
 1. `cd infra/bootstrap`, run `terraform init` and `terraform apply` with a unique `state_bucket_name`.
@@ -26,6 +27,7 @@ Work in small steps, commit after each one, and write what you learned in your R
 
 **Week 1 checkpoint:** screenshot of `kubectl get nodes` and the Terraform output.
 
+
 ## Week 2: CI pipeline
 1. In `gitops/apps/opspulse/kustomization.yaml`, replace `ACCOUNT_ID` with your AWS account id.
 2. Add GitHub secret `AWS_ROLE_ARN` (value from Terraform output `github_ci_role_arn`).
@@ -43,6 +45,7 @@ Work in small steps, commit after each one, and write what you learned in your R
 5. Optional: configure an Alertmanager Slack or email receiver.
 - *Prompt:* "Give me PromQL for p95 latency from a Prometheus histogram and explain each function."
 - Manually edit a deployment on the cluster and watch Argo CD **self-heal** it (this demonstrates drift correction).
+
 
 **Week 3 checkpoint:** Grafana dashboard screenshot and an Argo CD synced screenshot.
 
