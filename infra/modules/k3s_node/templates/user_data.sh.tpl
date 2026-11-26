@@ -10,6 +10,8 @@ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 until kubectl get nodes >/dev/null 2>&1; do sleep 5; done
 
 # ECR login tokens expire after 12 hours, so refresh the image pull secret every 6 hours.
+
+# Refresh the image pull secret every 6 hours.
 cat > /usr/local/bin/refresh-ecr-secret.sh <<'SCRIPT'
 #!/bin/bash
 set -euo pipefail
