@@ -77,3 +77,5 @@ Multi-AZ EKS, Karpenter autoscaling, OPA/Kyverno policies, cost dashboard, and a
 
 ## 14. Deliverables for recruiters
 README with diagram, a 2-minute demo video (bad release rolled back), a Grafana SLO screenshot, and two quantified resume bullets.
+
+
