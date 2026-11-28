@@ -11,3 +11,19 @@ spec:
     - name: http
       port: 80
       targetPort: http
+---
+# FEATURE: Canary service required by the Rollout's canaryService field.
+# Argo Rollouts patches its selector to point only at canary pods.
+apiVersion: v1
+kind: Service
+metadata:
+  name: opspulse-canary
+  labels:
+    app: opspulse
+spec:
+  selector:
+    app: opspulse
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

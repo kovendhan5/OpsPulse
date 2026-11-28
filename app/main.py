@@ -23,6 +23,10 @@ LATENCY = Histogram(
 )
 
 app = FastAPI(title="OpsPulse Orders API", version=APP_VERSION)
+
+# BUG FIX: Use a counter that survives deletions — len(dict) causes ID collisions
+# after a delete.  _next_id always increments.
+_next_id: int = 1
 orders: Dict[int, dict] = {}
 
 
@@ -40,8 +44,10 @@ async def metrics_middleware(request: Request, call_next):
         status = response.status_code
         return response
     finally:
+        # BUG FIX: request.scope["route"] may not exist for non-matched paths
+        # (e.g. 404 for unknown routes). Use getattr safely.
         route = request.scope.get("route")
-        path = route.path if route else request.url.path
+        path = getattr(route, "path", None) or request.url.path
         LATENCY.labels(path).observe(time.perf_counter() - start)
         REQUESTS.labels(request.method, path, str(status)).inc()
 
@@ -69,8 +75,12 @@ def list_orders():
 
 @app.post("/orders", status_code=201)
 def create_order(order: OrderIn):
+    global _next_id
     maybe_fail()
-    order_id = len(orders) + 1
+    # BUG FIX: Use monotonic counter instead of len(orders)+1 to avoid
+    # duplicate IDs after deletions.
+    order_id = _next_id
+    _next_id += 1
     orders[order_id] = {"id": order_id, **order.model_dump()}
     return orders[order_id]
 
@@ -81,5 +91,15 @@ def get_order(order_id: int):
     if order_id not in orders:
         raise HTTPException(status_code=404, detail="order not found")
     return orders[order_id]
+
+
+# FEATURE: DELETE endpoint (PRD says "orders API" — CRUD should be complete)
+@app.delete("/orders/{order_id}", status_code=204)
+def delete_order(order_id: int):
+    maybe_fail()
+    if order_id not in orders:
+        raise HTTPException(status_code=404, detail="order not found")
+    del orders[order_id]
+    return Response(status_code=204)
 
 

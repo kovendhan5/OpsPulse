@@ -1,6 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: opspulse
+# FEATURE: Added common labels for consistent resource selection.
+commonLabels:
+  app.kubernetes.io/name: opspulse
+  app.kubernetes.io/part-of: opspulse
 resources:
   - rollout.yaml
   - analysistemplate.yaml

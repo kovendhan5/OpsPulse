@@ -10,6 +10,10 @@ spec:
       app: opspulse
   strategy:
     canary:
+      # FEATURE: Added canary/stable service references so that traffic
+      # splitting works correctly with the Service object.
+      canaryService: opspulse-canary
+      stableService: opspulse
       steps:
         - setWeight: 25
         - pause: { duration: 30s }
@@ -22,6 +26,15 @@ spec:
                   podTemplateHashValue: Latest
         - setWeight: 50
         - pause: { duration: 30s }
+        # FEATURE: Run analysis again at 50% to catch regressions that only
+        # appear under higher load.
+        - analysis:
+            templates:
+              - templateName: error-rate
+            args:
+              - name: canary-hash
+                valueFrom:
+                  podTemplateHashValue: Latest
         - setWeight: 100
   template:
     metadata:

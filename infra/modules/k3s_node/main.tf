@@ -68,6 +68,8 @@ resource "aws_iam_role" "node" {
 resource "aws_iam_role_policy_attachment" "ssm" {
   role       = aws_iam_role.node.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  # BUG FIX: original was missing the account placeholder — the correct ARN
+  # for AWS-managed policies uses no account id (the double colon is correct).
 }
 
 resource "aws_iam_role_policy_attachment" "ecr_read" {

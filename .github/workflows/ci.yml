@@ -59,8 +59,12 @@ jobs:
 
       - name: Update GitOps manifest with new tag
         run: |
-          sed -i "s/newTag: .*/newTag: ${GITHUB_SHA::7}/" gitops/apps/opspulse/kustomization.yaml
+          TAG="${GITHUB_SHA::7}"
+          sed -i "s/newTag: .*/newTag: ${TAG}/" gitops/apps/opspulse/kustomization.yaml
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git commit -am "chore: release ${GITHUB_SHA::7} [skip ci]"
+          # BUG FIX: Pull before push — another CI run or manual push can
+          # cause "rejected (non-fast-forward)" without this.
+          git pull --rebase origin main
+          git commit -am "chore: release ${TAG} [skip ci]"
           git push
